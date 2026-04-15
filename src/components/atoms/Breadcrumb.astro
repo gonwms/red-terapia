@@ -1,0 +1,47 @@
+---
+interface BreadcrumbItem {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  items: BreadcrumbItem[];
+}
+
+const { items } = Astro.props;
+const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
+
+function normalizeHref(href: string): string {
+  if (href.startsWith("http") || href.startsWith("#")) return href;
+  return `${BASE}${href.startsWith("/") ? href : `/${href}`}`;
+}
+---
+
+<nav aria-label="Breadcrumb" class="py-4 bg-brand-bg">
+  <m-container>
+    <ol class="flex items-center gap-2 text-sm flex-wrap">
+      {items.map((item, index) => {
+        const isLast = index === items.length - 1;
+        return (
+          <>
+            {index > 0 && (
+              <li class="text-brand-muted select-none" aria-hidden="true">›</li>
+            )}
+            <li>
+              {isLast || !item.href ? (
+                <span class="text-brand-foreground font-medium">{item.label}</span>
+              ) : (
+                <a
+                  href={normalizeHref(item.href)}
+                  class="text-brand-muted hover:text-brand-primary transition-colors"
+                >
+                  {item.label}
+                </a>
+              )}
+            </li>
+          </>
+        );
+      })}
+    </ol>
+  </m-container>
+</nav>

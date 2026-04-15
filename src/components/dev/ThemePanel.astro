@@ -1,0 +1,737 @@
+---
+const SHOW_THEME_PANEL = true;
+---
+
+{SHOW_THEME_PANEL && (
+<div id="theme-panel-wrapper">
+  <!-- Toggle button -->
+  <button id="theme-toggle" aria-label="Toggle theme panel" title="Theme Panel">
+    <span class="material-symbols-outlined">tune</span>
+  </button>
+
+  <!-- Panel -->
+  <div id="theme-panel" class="hidden">
+    <div class="panel-header">
+      <span>Theme Panel</span>
+      <div class="panel-actions">
+        <button id="theme-dark-toggle" title="Toggle dark mode">Light</button>
+        <button id="theme-reset" title="Reset all tokens">Reset</button>
+        <button id="theme-copy" title="Copy CSS overrides">Copy CSS</button>
+      </div>
+    </div>
+
+    <div class="panel-body">
+
+      <!-- Semantic Colors -->
+      <div class="section-header" data-section="semantic">
+        <span>Semantic Colors</span>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="section-content" data-section-body="semantic">
+        <label>
+          <span>--primary</span>
+          <div class="color-row">
+            <code id="hex-primary">#148bef</code>
+            <input type="color" data-token="--primary" data-hex="hex-primary" value="#148bef" />
+          </div>
+        </label>
+        <label>
+          <span>--primary-hover</span>
+          <div class="color-row">
+            <code id="hex-primary-hover">#0e6bc8</code>
+            <input type="color" data-token="--primary-hover" data-hex="hex-primary-hover" value="#0e6bc8" />
+          </div>
+        </label>
+        <label>
+          <span>--primary-foreground</span>
+          <div class="color-row">
+            <code id="hex-primary-foreground">#ffffff</code>
+            <input type="color" data-token="--primary-foreground" data-hex="hex-primary-foreground" value="#ffffff" />
+          </div>
+        </label>
+        <label>
+          <span>--accent</span>
+          <div class="color-row">
+            <code id="hex-accent">#c6ff95</code>
+            <input type="color" data-token="--accent" data-hex="hex-accent" value="#c6ff95" />
+          </div>
+        </label>
+        <label>
+          <span>--accent-2</span>
+          <div class="color-row">
+            <code id="hex-accent-2">#a1f9f4</code>
+            <input type="color" data-token="--accent-2" data-hex="hex-accent-2" value="#a1f9f4" />
+          </div>
+        </label>
+      </div>
+
+      <!-- Surface Colors -->
+      <div class="section-header" data-section="surfaces">
+        <span>Surface Colors</span>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="section-content" data-section-body="surfaces">
+        <label>
+          <span>--bg</span>
+          <div class="color-row">
+            <code id="hex-bg">#f7f8ff</code>
+            <input type="color" data-token="--bg" data-hex="hex-bg" value="#f7f8ff" />
+          </div>
+        </label>
+        <label>
+          <span>--bg-alt</span>
+          <div class="color-row">
+            <code id="hex-bg-alt">#f0f3fb</code>
+            <input type="color" data-token="--bg-alt" data-hex="hex-bg-alt" value="#f0f3fb" />
+          </div>
+        </label>
+        <label>
+          <span>--surface</span>
+          <div class="color-row">
+            <code id="hex-surface">#ffffff</code>
+            <input type="color" data-token="--surface" data-hex="hex-surface" value="#ffffff" />
+          </div>
+        </label>
+        <label>
+          <span>--surface-hover</span>
+          <div class="color-row">
+            <code id="hex-surface-hover">#f8fafc</code>
+            <input type="color" data-token="--surface-hover" data-hex="hex-surface-hover" value="#f8fafc" />
+          </div>
+        </label>
+        <label>
+          <span>--border</span>
+          <div class="color-row">
+            <code id="hex-border">#dbe9f8</code>
+            <input type="color" data-token="--border" data-hex="hex-border" value="#dbe9f8" />
+          </div>
+        </label>
+        <label>
+          <span>--border-subtle</span>
+          <div class="color-row">
+            <code id="hex-border-subtle">#e8ecf4</code>
+            <input type="color" data-token="--border-subtle" data-hex="hex-border-subtle" value="#e8ecf4" />
+          </div>
+        </label>
+      </div>
+
+      <!-- Text Colors -->
+      <div class="section-header" data-section="text">
+        <span>Text Colors</span>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="section-content" data-section-body="text">
+        <label>
+          <span>--foreground</span>
+          <div class="color-row">
+            <code id="hex-foreground">#171931</code>
+            <input type="color" data-token="--foreground" data-hex="hex-foreground" value="#171931" />
+          </div>
+        </label>
+        <label>
+          <span>--muted</span>
+          <div class="color-row">
+            <code id="hex-muted">#4e6286</code>
+            <input type="color" data-token="--muted" data-hex="hex-muted" value="#4e6286" />
+          </div>
+        </label>
+        <label>
+          <span>--muted-foreground</span>
+          <div class="color-row">
+            <code id="hex-muted-foreground">#9ca3af</code>
+            <input type="color" data-token="--muted-foreground" data-hex="hex-muted-foreground" value="#9ca3af" />
+          </div>
+        </label>
+      </div>
+
+      <!-- Brand Palette -->
+      <div class="section-header" data-section="palette">
+        <span>Brand Palette</span>
+        <span class="chevron">▸</span>
+      </div>
+      <div class="section-content hidden" data-section-body="palette">
+        <label>
+          <span>--color-brand-dark</span>
+          <div class="color-row">
+            <code id="hex-color-brand-dark">#171931</code>
+            <input type="color" data-token="--color-brand-dark" data-hex="hex-color-brand-dark" value="#171931" />
+          </div>
+        </label>
+        <label>
+          <span>--color-brand-dark-2</span>
+          <div class="color-row">
+            <code id="hex-color-brand-dark-2">#141724</code>
+            <input type="color" data-token="--color-brand-dark-2" data-hex="hex-color-brand-dark-2" value="#141724" />
+          </div>
+        </label>
+        <label>
+          <span>--color-brand-gris</span>
+          <div class="color-row">
+            <code id="hex-color-brand-gris">#4e6286</code>
+            <input type="color" data-token="--color-brand-gris" data-hex="hex-color-brand-gris" value="#4e6286" />
+          </div>
+        </label>
+        <label>
+          <span>--color-brand-celeste</span>
+          <div class="color-row">
+            <code id="hex-color-brand-celeste">#148bef</code>
+            <input type="color" data-token="--color-brand-celeste" data-hex="hex-color-brand-celeste" value="#148bef" />
+          </div>
+        </label>
+        <label>
+          <span>--color-brand-celeste-hover</span>
+          <div class="color-row">
+            <code id="hex-color-brand-celeste-hover">#0e6bc8</code>
+            <input type="color" data-token="--color-brand-celeste-hover" data-hex="hex-color-brand-celeste-hover" value="#0e6bc8" />
+          </div>
+        </label>
+        <label>
+          <span>--color-brand-verde</span>
+          <div class="color-row">
+            <code id="hex-color-brand-verde">#c6ff95</code>
+            <input type="color" data-token="--color-brand-verde" data-hex="hex-color-brand-verde" value="#c6ff95" />
+          </div>
+        </label>
+        <label>
+          <span>--color-brand-turquesa</span>
+          <div class="color-row">
+            <code id="hex-color-brand-turquesa">#a1f9f4</code>
+            <input type="color" data-token="--color-brand-turquesa" data-hex="hex-color-brand-turquesa" value="#a1f9f4" />
+          </div>
+        </label>
+        <label>
+          <span>--color-brand-pastel-celeste</span>
+          <div class="color-row">
+            <code id="hex-color-brand-pastel-celeste">#dbe9f8</code>
+            <input type="color" data-token="--color-brand-pastel-celeste" data-hex="hex-color-brand-pastel-celeste" value="#dbe9f8" />
+          </div>
+        </label>
+        <label>
+          <span>--color-brand-pastel-gris</span>
+          <div class="color-row">
+            <code id="hex-color-brand-pastel-gris">#f0f3fb</code>
+            <input type="color" data-token="--color-brand-pastel-gris" data-hex="hex-color-brand-pastel-gris" value="#f0f3fb" />
+          </div>
+        </label>
+        <label>
+          <span>--color-brand-pastel-verde</span>
+          <div class="color-row">
+            <code id="hex-color-brand-pastel-verde">#e9f5e4</code>
+            <input type="color" data-token="--color-brand-pastel-verde" data-hex="hex-color-brand-pastel-verde" value="#e9f5e4" />
+          </div>
+        </label>
+        <label>
+          <span>--color-brand-fondo</span>
+          <div class="color-row">
+            <code id="hex-color-brand-fondo">#f7f8ff</code>
+            <input type="color" data-token="--color-brand-fondo" data-hex="hex-color-brand-fondo" value="#f7f8ff" />
+          </div>
+        </label>
+      </div>
+
+      <!-- Border Radius -->
+      <div class="section-header" data-section="radius">
+        <span>Border Radius</span>
+        <span class="chevron">▸</span>
+      </div>
+      <div class="section-content hidden" data-section-body="radius">
+        <label class="slider-label">
+          <span>--radius-xs <em id="val-radius-xs">4px</em></span>
+          <input type="range" data-token="--radius-xs" data-unit="px" min="0" max="16" value="4" />
+        </label>
+        <label class="slider-label">
+          <span>--radius-sm <em id="val-radius-sm">8px</em></span>
+          <input type="range" data-token="--radius-sm" data-unit="px" min="0" max="24" value="8" />
+        </label>
+        <label class="slider-label">
+          <span>--radius-md <em id="val-radius-md">12px</em></span>
+          <input type="range" data-token="--radius-md" data-unit="px" min="0" max="32" value="12" />
+        </label>
+        <label class="slider-label">
+          <span>--radius-lg <em id="val-radius-lg">16px</em></span>
+          <input type="range" data-token="--radius-lg" data-unit="px" min="0" max="48" value="16" />
+        </label>
+        <label class="slider-label">
+          <span>--radius-xl <em id="val-radius-xl">24px</em></span>
+          <input type="range" data-token="--radius-xl" data-unit="px" min="0" max="64" value="24" />
+        </label>
+        <label class="slider-label">
+          <span>--radius-2xl <em id="val-radius-2xl">32px</em></span>
+          <input type="range" data-token="--radius-2xl" data-unit="px" min="0" max="80" value="32" />
+        </label>
+        <label class="slider-label">
+          <span>--radius-3xl <em id="val-radius-3xl">40px</em></span>
+          <input type="range" data-token="--radius-3xl" data-unit="px" min="0" max="96" value="40" />
+        </label>
+      </div>
+
+      <!-- Shadows -->
+      <div class="section-header" data-section="shadows">
+        <span>Shadows <small>(display only)</small></span>
+        <span class="chevron">▸</span>
+      </div>
+      <div class="section-content hidden" data-section-body="shadows">
+        <div class="display-only">
+          <span>--shadow-sm</span>
+          <div class="shadow-preview" style="box-shadow: var(--shadow-sm)"></div>
+        </div>
+        <div class="display-only">
+          <span>--shadow-md</span>
+          <div class="shadow-preview" style="box-shadow: var(--shadow-md)"></div>
+        </div>
+        <div class="display-only">
+          <span>--shadow-lg</span>
+          <div class="shadow-preview" style="box-shadow: var(--shadow-lg)"></div>
+        </div>
+      </div>
+
+      <!-- Typography -->
+      <div class="section-header" data-section="typography">
+        <span>Typography</span>
+        <span class="chevron">▸</span>
+      </div>
+      <div class="section-content hidden" data-section-body="typography">
+        <label class="slider-label">
+          <span>--font-size-base <em id="val-font-size-base">17px</em></span>
+          <input type="range" data-token="--font-size-base" data-unit="px" min="14" max="22" step="1" value="17" />
+        </label>
+        <div class="type-scale-header">Type scale</div>
+        <label class="slider-label">
+          <span>--text-xs <em id="val-text-xs">0.75rem <small>(~13px)</small></em></span>
+          <input type="range" data-token="--text-xs" data-unit="rem" data-decimals="2" data-show-px="true" min="0.5" max="1" step="0.01" value="0.75" />
+        </label>
+        <label class="slider-label">
+          <span>--text-sm <em id="val-text-sm">0.9rem <small>(~15px)</small></em></span>
+          <input type="range" data-token="--text-sm" data-unit="rem" data-decimals="2" data-show-px="true" min="0.7" max="1.2" step="0.01" value="0.9" />
+        </label>
+        <label class="slider-label">
+          <span>--text-base <em id="val-text-base">1rem <small>(~17px)</small></em></span>
+          <input type="range" data-token="--text-base" data-unit="rem" data-decimals="2" data-show-px="true" min="0.8" max="1.4" step="0.01" value="1" />
+        </label>
+        <label class="slider-label">
+          <span>--text-lg <em id="val-text-lg">1.125rem <small>(~19px)</small></em></span>
+          <input type="range" data-token="--text-lg" data-unit="rem" data-decimals="3" data-show-px="true" min="0.9" max="1.6" step="0.005" value="1.125" />
+        </label>
+        <label class="slider-label">
+          <span>--text-xl <em id="val-text-xl">1.25rem <small>(~21px)</small></em></span>
+          <input type="range" data-token="--text-xl" data-unit="rem" data-decimals="2" data-show-px="true" min="1" max="2" step="0.01" value="1.25" />
+        </label>
+        <label class="slider-label">
+          <span>--text-2xl <em id="val-text-2xl">1.5rem <small>(~26px)</small></em></span>
+          <input type="range" data-token="--text-2xl" data-unit="rem" data-decimals="2" data-show-px="true" min="1.1" max="2.5" step="0.01" value="1.5" />
+        </label>
+        <label class="slider-label">
+          <span>--text-3xl <em id="val-text-3xl">1.875rem <small>(~32px)</small></em></span>
+          <input type="range" data-token="--text-3xl" data-unit="rem" data-decimals="3" data-show-px="true" min="1.4" max="3" step="0.005" value="1.875" />
+        </label>
+        <label class="slider-label">
+          <span>--text-4xl <em id="val-text-4xl">2.25rem <small>(~38px)</small></em></span>
+          <input type="range" data-token="--text-4xl" data-unit="rem" data-decimals="2" data-show-px="true" min="1.8" max="4" step="0.01" value="2.25" />
+        </label>
+        <label class="slider-label">
+          <span>--text-5xl <em id="val-text-5xl">3rem <small>(~51px)</small></em></span>
+          <input type="range" data-token="--text-5xl" data-unit="rem" data-decimals="2" data-show-px="true" min="2" max="5" step="0.05" value="3" />
+        </label>
+        <label class="slider-label">
+          <span>--text-6xl <em id="val-text-6xl">3.75rem <small>(~64px)</small></em></span>
+          <input type="range" data-token="--text-6xl" data-unit="rem" data-decimals="2" data-show-px="true" min="2.5" max="6" step="0.05" value="3.75" />
+        </label>
+        <label class="slider-label">
+          <span>--text-7xl <em id="val-text-7xl">4.5rem <small>(~77px)</small></em></span>
+          <input type="range" data-token="--text-7xl" data-unit="rem" data-decimals="2" data-show-px="true" min="3" max="7" step="0.05" value="4.5" />
+        </label>
+        <label class="slider-label">
+          <span>--text-8xl <em id="val-text-8xl">6rem <small>(~102px)</small></em></span>
+          <input type="range" data-token="--text-8xl" data-unit="rem" data-decimals="2" data-show-px="true" min="4" max="10" step="0.1" value="6" />
+        </label>
+        <label class="slider-label">
+          <span>--text-9xl <em id="val-text-9xl">8rem <small>(~136px)</small></em></span>
+          <input type="range" data-token="--text-9xl" data-unit="rem" data-decimals="2" data-show-px="true" min="5" max="14" step="0.1" value="8" />
+        </label>
+      </div>
+
+      <!-- Section Spacing -->
+      <div class="section-header" data-section="spacing">
+        <span>Section Spacing</span>
+        <span class="chevron">▸</span>
+      </div>
+      <div class="section-content hidden" data-section-body="spacing">
+        <label class="slider-label">
+          <span>--section-py-sm <em id="val-section-py-sm">3rem <small>(~51px)</small></em></span>
+          <input type="range" data-token="--section-py-sm" data-unit="rem" data-decimals="1" data-show-px="true" min="1" max="8" step="0.5" value="3" />
+        </label>
+        <label class="slider-label">
+          <span>--section-py-lg <em id="val-section-py-lg">5rem <small>(~85px)</small></em></span>
+          <input type="range" data-token="--section-py-lg" data-unit="rem" data-decimals="1" data-show-px="true" min="2" max="12" step="0.5" value="5" />
+        </label>
+        <label class="slider-label">
+          <span>--section-py-xl <em id="val-section-py-xl">7rem <small>(~119px)</small></em></span>
+          <input type="range" data-token="--section-py-xl" data-unit="rem" data-decimals="1" data-show-px="true" min="3" max="16" step="0.5" value="7" />
+        </label>
+      </div>
+
+      <!-- Layout -->
+      <div class="section-header" data-section="layout">
+        <span>Layout</span>
+        <span class="chevron">▸</span>
+      </div>
+      <div class="section-content hidden" data-section-body="layout">
+        <label class="slider-label">
+          <span>--width-content <em id="val-width-content">1400px</em></span>
+          <input type="range" data-token="--width-content" data-unit="px" min="960" max="1920" step="10" value="1400" />
+        </label>
+      </div>
+
+    </div>
+  </div>
+</div>
+)}
+
+<style>
+  #theme-panel-wrapper {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    z-index: 9999;
+    font-family: monospace;
+    font-size: 12px;
+  }
+
+  #theme-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #171931;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    margin-left: auto;
+  }
+
+  #theme-toggle:hover {
+    background: #148bef;
+  }
+
+  #theme-panel {
+    position: absolute;
+    bottom: 52px;
+    right: 0;
+    width: 300px;
+    max-height: 75vh;
+    overflow-y: auto;
+    background: #1e2140;
+    color: #e2e8f0;
+    border-radius: 12px;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+  }
+
+  #theme-panel.hidden {
+    display: none;
+  }
+
+  .panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    background: #141724;
+    border-radius: 12px 12px 0 0;
+    font-weight: bold;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-size: 10px;
+    color: #94a3b8;
+    gap: 0.5rem;
+    position: sticky;
+    top: 0;
+  }
+
+  .panel-actions {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+
+  .panel-actions button {
+    padding: 0.25rem 0.6rem;
+    border-radius: 6px;
+    border: 1px solid #334155;
+    background: transparent;
+    color: #94a3b8;
+    cursor: pointer;
+    font-family: monospace;
+    font-size: 10px;
+  }
+
+  .panel-actions button:hover {
+    background: #148bef;
+    color: #fff;
+    border-color: #148bef;
+  }
+
+  .panel-body {
+    padding: 0.5rem 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Collapsible sections */
+  .section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.4rem 1rem;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #64748b;
+    cursor: pointer;
+    border-top: 1px solid #1e293b;
+    user-select: none;
+  }
+
+  .section-header:hover {
+    color: #94a3b8;
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  .section-header small {
+    font-size: 8px;
+    color: #475569;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  .chevron {
+    font-size: 10px;
+    color: #475569;
+  }
+
+  .section-content {
+    padding: 0.25rem 1rem 0.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .section-content.hidden {
+    display: none;
+  }
+
+  label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    color: #cbd5e1;
+  }
+
+  label > span {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 11px;
+  }
+
+  .color-row {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-shrink: 0;
+  }
+
+  .color-row code {
+    font-size: 10px;
+    color: #64748b;
+    font-family: monospace;
+  }
+
+  label input[type="color"] {
+    width: 36px;
+    height: 22px;
+    padding: 0;
+    border: 1px solid #334155;
+    border-radius: 4px;
+    background: transparent;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .slider-label {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.2rem;
+  }
+
+  .slider-label > span {
+    white-space: nowrap;
+    font-size: 11px;
+    color: #cbd5e1;
+  }
+
+  .slider-label em {
+    font-style: normal;
+    color: #148bef;
+    margin-left: 0.3rem;
+  }
+
+  .slider-label em small {
+    font-size: 9px;
+    color: #475569;
+    margin-left: 0.2rem;
+  }
+
+  .slider-label input[type="range"] {
+    width: 100%;
+    accent-color: #148bef;
+  }
+
+  .type-scale-header {
+    font-size: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #475569;
+    padding: 0.3rem 0 0.1rem;
+    border-top: 1px dashed #2d3456;
+    margin-top: 0.2rem;
+  }
+
+  .display-only {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    color: #64748b;
+    font-size: 11px;
+  }
+
+  .shadow-preview {
+    width: 32px;
+    height: 20px;
+    border-radius: 4px;
+    background: #fff;
+    flex-shrink: 0;
+  }
+</style>
+
+<script>
+  const root = document.documentElement;
+
+  // Toggle panel
+  document.getElementById('theme-toggle')?.addEventListener('click', () => {
+    document.getElementById('theme-panel')?.classList.toggle('hidden');
+  });
+
+  // Collapsible sections
+  document.querySelectorAll<HTMLElement>('.section-header').forEach(header => {
+    header.addEventListener('click', () => {
+      const key = header.dataset.section!;
+      const body = document.querySelector<HTMLElement>(`[data-section-body="${key}"]`);
+      const chevron = header.querySelector<HTMLElement>('.chevron');
+      if (!body) return;
+      const isHidden = body.classList.toggle('hidden');
+      if (chevron) chevron.textContent = isHidden ? '▸' : '▾';
+    });
+  });
+
+  // Color pickers
+  document.querySelectorAll<HTMLInputElement>('input[type="color"][data-token]').forEach(input => {
+    const token = input.dataset.token!;
+    const hexId = input.dataset.hex;
+    input.addEventListener('input', () => {
+      root.style.setProperty(token, input.value);
+      if (hexId) {
+        const el = document.getElementById(hexId);
+        if (el) el.textContent = input.value;
+      }
+    });
+  });
+
+  // Range sliders
+  document.querySelectorAll<HTMLInputElement>('input[type="range"][data-token]').forEach(input => {
+    const token = input.dataset.token!;
+    const unit = input.dataset.unit ?? '';
+    const decimals = parseInt(input.dataset.decimals ?? '0', 10);
+    const showPx = input.dataset.showPx === 'true';
+    const valEl = document.getElementById('val-' + token.replace(/^--/, ''));
+
+    const update = () => {
+      const raw = parseFloat(input.value);
+      const val = decimals > 0 ? raw.toFixed(decimals) : String(Math.round(raw));
+      const full = val + unit;
+      root.style.setProperty(token, full);
+      if (valEl) {
+        if (showPx && unit === 'rem') {
+          const base = parseFloat(getComputedStyle(root).fontSize) || 17;
+          const px = Math.round(raw * base);
+          valEl.innerHTML = `${full} <small>(~${px}px)</small>`;
+        } else {
+          valEl.textContent = full;
+        }
+      }
+    };
+
+    input.addEventListener('input', update);
+  });
+
+  // Dark/Light toggle
+  const darkBtn = document.getElementById('theme-dark-toggle')!;
+  darkBtn?.addEventListener('click', () => {
+    const isDark = root.classList.toggle('dark');
+    darkBtn.textContent = isDark ? 'Dark' : 'Light';
+  });
+
+  // Reset
+  document.getElementById('theme-reset')?.addEventListener('click', () => {
+    const style = root.getAttribute('style') ?? '';
+    const cleaned = style.replace(/--[\w-]+:[^;]+;?\s*/g, '').trim();
+    if (cleaned) {
+      root.setAttribute('style', cleaned);
+    } else {
+      root.removeAttribute('style');
+    }
+    document.querySelectorAll<HTMLInputElement>('input[data-token]').forEach(input => {
+      input.value = input.defaultValue;
+      const token = input.dataset.token!;
+      const hexId = input.dataset.hex;
+      if (hexId) {
+        const el = document.getElementById(hexId);
+        if (el) el.textContent = input.defaultValue;
+      }
+      const valEl = document.getElementById('val-' + token.replace(/^--/, ''));
+      if (valEl) valEl.textContent = input.defaultValue + (input.dataset.unit ?? '');
+    });
+    // Reset dark mode
+    root.classList.remove('dark');
+    if (darkBtn) darkBtn.textContent = 'Light';
+  });
+
+  // Copy CSS — only modified tokens
+  document.getElementById('theme-copy')?.addEventListener('click', () => {
+    const overrides: string[] = [];
+    document.querySelectorAll<HTMLInputElement>('input[data-token]').forEach(input => {
+      const token = input.dataset.token!;
+      const inline = root.style.getPropertyValue(token).trim();
+      if (inline) overrides.push(`  ${token}: ${inline};`);
+    });
+
+    const css = overrides.length
+      ? `:root {\n${overrides.join('\n')}\n}`
+      : '/* No overrides */';
+
+    navigator.clipboard.writeText(css).then(() => {
+      const btn = document.getElementById('theme-copy')!;
+      const prev = btn.textContent;
+      btn.textContent = 'Copied!';
+      setTimeout(() => { btn.textContent = prev; }, 1500);
+    });
+  });
+</script>

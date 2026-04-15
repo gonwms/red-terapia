@@ -1,0 +1,55 @@
+---
+import Icon from "./Icon.astro";
+
+interface Props {
+  name: string;
+  role: string;
+  image: string;
+  linkedinUrl?: string;
+}
+
+const { name, role, image, linkedinUrl } = Astro.props;
+const BASE = import.meta.env.BASE_URL;
+---
+
+<div
+  class="flex flex-col items-center w-full p-8 text-center transition-shadow duration-300 bg-brand-surface rounded-xl shadow-sm hover:shadow-lg"
+>
+  <!-- Image Area -->
+  <div class="relative flex items-end justify-center size-35 mb-6">
+    <div class="absolute bottom-0 size-35 rounded-full bg-brand-accent"></div>
+    <img
+      src={`${BASE}imgs/team/${image}`}
+      alt={name}
+      class="relative z-10 size-32.5 object-cover rounded-t-full rounded-b-2xl saturate-0"
+    />
+  </div>
+
+  <!-- Name and Social Icon -->
+  <div class="flex items-center justify-center gap-2 mb-3">
+    <h3
+      class="text-2xl font-bold leading-none font-display text-brand-foreground"
+    >
+      {name}
+    </h3>
+    {
+      linkedinUrl && (
+        <a
+          href={linkedinUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="flex items-center transition-colors text-brand-foreground hover:text-brand-primary"
+          aria-label={`LinkedIn de ${name}`}
+        >
+          <Icon lib="social" name="simple-icons:linkedin" size={20} />
+        </a>
+      )
+    }
+  </div>
+
+  <p
+    class="text-xs font-medium tracking-wide uppercase text-brand-muted sm:text-sm"
+  >
+    {role}
+  </p>
+</div>

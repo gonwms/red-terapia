@@ -1,0 +1,19 @@
+---
+interface Props {
+  text: string;
+  theme?: "light" | "dark";
+}
+
+const { text, theme = "light" } = Astro.props;
+---
+
+<span
+  class:list={[
+    "inline-block rounded-full px-5 py-1.5 text-lg tracking-wide font-display font-semibold max-w-fit",
+    theme === "dark"
+      ? "border border-white/80 text-white font-medium"
+      : "border border-brand-dark/80 text-brand-foreground bg-transparent",
+  ]}
+>
+  {text}
+</span>

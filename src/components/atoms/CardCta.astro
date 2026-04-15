@@ -1,0 +1,83 @@
+---
+/**
+ * Componente CardCta
+ * Reutiliza Button y Glow para crear una tarjeta de Call to Action.
+ */
+import Button from "./Button.astro";
+import Glow from "./Glow.astro";
+
+interface Props {
+  overtitle: string;
+  title: string;
+  buttonLabel: string;
+  buttonHref: string;
+  variant?: "dark" | "light";
+  class?: string;
+}
+
+const {
+  overtitle,
+  title,
+  buttonLabel,
+  buttonHref,
+  variant = "dark",
+  class: className,
+} = Astro.props;
+
+const isDark = variant === "dark";
+
+// Normalización de link para GitHub Pages
+const baseUrl = import.meta.env.BASE_URL.replace(/\/$/, ""); // quitar slash final si existe
+const finalHref = buttonHref.startsWith("http") || buttonHref.startsWith("#")
+  ? buttonHref
+  : `${baseUrl}${buttonHref.startsWith("/") ? "" : "/"}${buttonHref}`;
+
+// Configuración de estilos según variante
+const styles = {
+  container: isDark
+    ? "bg-brand-dark text-white border-none"
+    : "bg-brand-surface text-brand-foreground border border-brand-border-subtle shadow-sm",
+  overtitle: isDark ? "text-white/70" : "text-brand-muted",
+  title: isDark ? "text-white" : "text-brand-foreground",
+  glow: isDark ? "bg-brand-primary/20" : "bg-brand-primary/10",
+};
+---
+
+<div
+  class:list={[
+    "relative overflow-hidden rounded-2xl p-8 md:p-10 flex flex-col gap-6 md:gap-8 justify-between min-h-[16rem]",
+    styles.container,
+    className,
+  ]}
+>
+  {/* Efecto visual de profundidad */}
+  <Glow class:list={["absolute -top-12 -right-12 w-64 h-64", styles.glow]} />
+
+  <div class="space-y-3 relative z-10 transition-transform duration-300">
+    <p
+      class:list={[
+        "text-xs font-bold uppercase tracking-[0.1em] font-display",
+        styles.overtitle,
+      ]}
+    >
+      {overtitle}
+    </p>
+    <h3
+      class:list={[
+        "text-2xl md:text-3xl font-display font-extrabold leading-[1.1]",
+        styles.title,
+      ]}
+    >
+      {title}
+    </h3>
+  </div>
+
+  <div class="relative z-10 mt-auto">
+    <Button
+      label={buttonLabel}
+      href={finalHref}
+      variant="celeste"
+      class="w-fit"
+    />
+  </div>
+</div>

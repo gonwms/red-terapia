@@ -1,0 +1,79 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+  image?: string; // Para compatibilidad
+  canonicalURL?: string;
+  noindex?: boolean;
+  ogType?: string;
+}
+
+// Default noindex behavior — set to false for public projects
+const GLOBAL_NOINDEX = false;
+
+const {
+  title,
+  description,
+  ogImage,
+  image,
+  noindex = false,
+  ogType = "website",
+  canonicalURL = Astro.url.href,
+} = Astro.props;
+
+// Prioridad: ogImage > image > default
+const finalImage = ogImage || image || `${import.meta.env.BASE_URL}assets/og-image.jpg`;
+const socialImage = new URL(finalImage, Astro.site || Astro.url).href;
+
+const shouldNoIndex = GLOBAL_NOINDEX || noindex;
+
+const { pathname } = Astro.url;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    {shouldNoIndex && <meta name="robots" content="noindex,nofollow" />}
+    <meta name="viewport" content="width=device-width" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href={`${import.meta.env.BASE_URL}favicon.svg`}
+    />
+    <meta name="generator" content={Astro.generator} />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- OpenGraph -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={socialImage} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={Astro.url.href} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage} />
+
+    <!-- Google Material Icons & Symbols (optional) -->
+    <!-- <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    /> -->
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

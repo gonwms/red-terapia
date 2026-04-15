@@ -1,0 +1,155 @@
+---
+import Icon from "../atoms/Icon.astro";
+import type { NavItem } from "../../data/navigation";
+
+interface Props {
+  navItems: NavItem[];
+  pathname: string;
+  theme?: "dark" | "light";
+}
+
+const { navItems, pathname, theme = "dark" } = Astro.props;
+
+const isActive = (href: string) => {
+  const normalized = href.endsWith("/") ? href : `${href}/`;
+  const current    = pathname.endsWith("/") ? pathname : `${pathname}/`;
+  return current === normalized;
+};
+
+// Theme-driven classes — computed in frontmatter, never in template
+const linkBase     = theme === "dark"
+  ? "transition-colors hover:text-white text-lg font-normal"
+  : "transition-colors hover:text-brand-dark text-lg font-normal";
+const linkActive   = theme === "dark"
+  ? "text-white font-Black "
+  : "text-brand-foreground font-Black ";
+const linkInactive = theme === "dark" ? "text-white/90" : "text-brand-foreground";
+
+const dropdownPanelClass = theme === "dark"
+  ? "relative p-4 border shadow-2xl rounded-2xl border-white/5 bg-brand-dark/95 backdrop-blur-xl"
+  : "relative p-4 border rounded-2xl border-brand-gris/15 bg-brand-surface shadow-sm";
+
+const dropdownArrowColor = theme === "dark"
+  ? "rgba(23, 25, 49, 0.95)"
+  : "rgb(255, 255, 255)";
+
+const dropdownItemClass = theme === "dark"
+  ? "flex items-center gap-3 px-3 py-2.5 rounded-full transition-colors no-underline text-sm text-white/90 hover:text-white hover:bg-white/5 border border-white/1 hover:border-white/3"
+  : "flex items-center gap-3 px-3 py-2.5 rounded-full transition-colors no-underline text-sm text-brand-foreground/80 hover:text-brand-foreground hover:bg-brand-dark/3 border border-brand-dark/0 hover:border-brand-dark/2";
+
+const iconContainerClass = theme === "dark"
+  ? "flex items-center justify-center rounded-full bg-white/10  p-1 shrink-0"
+  : "flex items-center justify-center rounded-full bg-brand-gris/2  p-1 shrink-0";
+---
+
+<nav class="items-center hidden gap-8 md:flex">
+
+  {navItems.map((item) => item.dropdown ? (
+
+    <div class="relative" data-dropdown-wrap>
+      <a
+        href={item.href}
+        data-dropdown-trigger
+        aria-expanded="false"
+        aria-haspopup="true"
+        class:list={[linkBase, linkInactive, "flex items-center gap-1"]}
+      >
+        {item.label}
+        <span data-dropdown-chevron class="flex items-center transition-transform duration-200">
+          <Icon name="expand_more" size={16} />
+        </span>
+      </a>
+
+
+      {/* DROPDOWN MENU*/}
+      <div
+        data-dropdown
+        role="menu"
+        class="absolute mt-4 transition-all duration-200 origin-top scale-95 -translate-x-1/2 opacity-0 pointer-events-none left-1/2 top-10 w-140"
+      >
+        <div class={dropdownPanelClass}>
+
+          <!-- Arrow pointing up to trigger -->
+          <div
+            class="absolute w-0 h-0 -translate-x-1/2 left-1/2"
+            style={`top: -8px; border-left: 8px solid transparent; border-right: 8px solid transparent; border-bottom: 8px solid ${dropdownArrowColor};`}
+          ></div>
+
+          <ul class="grid grid-cols-2 gap-x-8 gap-y-2" role="none">
+            {item.children?.map((svc) => (
+              <li role="none">
+                <a href={svc.href} role="menuitem" class={dropdownItemClass}>
+                  <div class={iconContainerClass}>
+                    <img src={svc.icon} alt="" class="object-contain size-10" />
+                  </div>
+                  <span class="text-lg font-semibold font-display whitespace-nowrap">
+                    {svc.label}
+                  </span>
+                </a>
+              </li>
+            ))}
+          </ul>
+
+        </div>
+      </div>
+
+    </div>
+
+  ) : (
+
+    <a
+      href={item.href}
+      class:list={[linkBase, isActive(item.href!) ? linkActive : linkInactive]}
+    >
+      {item.label}
+    </a>
+
+  ))}
+
+</nav>
+
+<script>
+  const OPEN   = ["opacity-100", "pointer-events-auto", "scale-100"];
+  const CLOSED = ["opacity-0",   "pointer-events-none", "scale-95" ];
+
+  document.querySelectorAll<HTMLElement>("[data-dropdown-wrap]").forEach((wrap) => {
+    const trigger  = wrap.querySelector<HTMLElement>("[data-dropdown-trigger]")!;
+    const dropdown = wrap.querySelector<HTMLElement>("[data-dropdown]")!;
+    const chevron  = wrap.querySelector<HTMLElement>("[data-dropdown-chevron]")!;
+
+    let closeTimer: ReturnType<typeof setTimeout> | null = null;
+
+    const cancelClose = () => {
+      if (closeTimer !== null) { clearTimeout(closeTimer); closeTimer = null; }
+    };
+
+    const openDropdown = () => {
+      cancelClose();
+      dropdown.classList.remove(...CLOSED);
+      dropdown.classList.add(...OPEN);
+      trigger.setAttribute("aria-expanded", "true");
+      chevron.classList.add("rotate-180");
+    };
+
+    const closeDropdown = () => {
+      cancelClose();
+      dropdown.classList.remove(...OPEN);
+      dropdown.classList.add(...CLOSED);
+      trigger.setAttribute("aria-expanded", "false");
+      chevron.classList.remove("rotate-180");
+    };
+
+    trigger.addEventListener("click", (e) => {
+      e.stopPropagation();
+      dropdown.classList.contains("opacity-0") ? openDropdown() : closeDropdown();
+    });
+
+    wrap.addEventListener("mouseenter", () => { cancelClose(); openDropdown(); });
+    wrap.addEventListener("mouseleave", () => { closeTimer = setTimeout(closeDropdown, 200); });
+
+    document.addEventListener("click",  (e) => { !wrap.contains(e.target as Node) && closeDropdown(); });
+    document.addEventListener("keydown", (e) => { e.key === "Escape" && closeDropdown(); });
+
+    dropdown.querySelectorAll("a").forEach((link) => link.addEventListener("click", closeDropdown));
+  });
+</script>

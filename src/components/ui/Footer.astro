@@ -1,0 +1,201 @@
+---
+import Icon from "../atoms/Icon.astro";
+
+interface Props {
+  variant?: "dark" | "light";
+}
+
+const { variant = "dark" } = Astro.props;
+const BASE = import.meta.env.BASE_URL.replace(/\/$/, "");
+
+const services = [
+  { name: "Google Ads", href: "/servicio-google-ads" },
+  { name: "Meta Ads", href: "/servicio-meta-ads" },
+  { name: "TikTok Ads", href: "/servicio-tiktok-ads" },
+  { name: "LinkedIn Ads", href: "/servicio-linkedin-ads" },
+  { name: "Bing Ads", href: "/servicio-bing-ads" },
+  { name: "Local SEO", href: "/servicio-local-seo" },
+  { name: "Content SEO", href: "/servicio-content-seo" },
+  { name: "Technical SEO", href: "/servicio-technical-seo" },
+  { name: "Google Analytics", href: "/servicio-google-analytics" },
+  { name: "Asesoramiento", href: "/servicio-asesoramiento" },
+];
+
+const contentLinks = [
+  { name: "Agencia", href: "/agencia" },
+  { name: "Testimonios", href: "/clientes" },
+  { name: "Blog", href: "/blog" },
+  { name: "Oportunidades", href: "/oportunidades" },
+  { name: "FAQs", href: "/faqs" },
+  { name: "Contacto", href: "/contacto" },
+];
+---
+
+<!-- ----- FOOTER ----- -->
+<footer>
+  <!-- --------------- FOOTER --------------- -->
+  <section id="footer" class="bg-brand-dark">
+    <m-container>
+      <!-- Top grid: 4 columns -->
+      <m-row
+        class="flex-col flex-wrap py-20 gap-y-16 gap-x-2 lg:space-between lg:flex-row lg:gap-y-6"
+      >
+        <!-- Col 1: Logo + Tagline + Social -->
+        <m-col class="flex flex-col items-center gap-6 lg:items-start">
+          <a href={`${BASE}/`}>
+            <img
+              src={`${BASE}/imgs/logo.svg`}
+              alt="Mediabros"
+              class="object-contain h-12"
+            />
+          </a>
+          <p
+            class="text-sm leading-relaxed text-center text-brand-muted lg:text-left"
+          >
+            Agencia de marketing digital especializada en generación de leads
+            para empresas B2B y B2C.
+          </p>
+          <!-- Social icons -->
+          <div class="flex items-center gap-3 mt-2">
+            <a
+              href="https://www.linkedin.com/company/mediabros-marketing-digital/mycompany/"
+              target="_blank"
+              rel="noopener"
+              aria-label="LinkedIn"
+              class="flex items-center justify-center transition-all duration-300 border rounded-full w-9 h-9 border-white/10 text-brand-muted hover:text-white hover:border-brand-primary hover:bg-brand-primary/10"
+            >
+              <Icon lib="social" name="simple-icons:linkedin" size={18} />
+            </a>
+            <a
+              href="https://www.instagram.com/mediabrosmkt/"
+              target="_blank"
+              rel="noopener"
+              aria-label="Instagram"
+              class="flex items-center justify-center transition-all duration-300 border rounded-full w-9 h-9 border-white/10 text-brand-muted hover:text-white hover:border-brand-primary hover:bg-brand-primary/10"
+            >
+              <Icon lib="social" name="simple-icons:instagram" size={18} />
+            </a>
+            <a
+              href="https://www.facebook.com/MediaBrosMKT"
+              target="_blank"
+              rel="noopener"
+              aria-label="Facebook"
+              class="flex items-center justify-center transition-all duration-300 border rounded-full w-9 h-9 border-white/10 text-brand-muted hover:text-white hover:border-brand-primary hover:bg-brand-primary/10"
+            >
+              <Icon lib="social" name="simple-icons:facebook" size={18} />
+            </a>
+            <a
+              href="https://www.tiktok.com/@mediabroslatam"
+              target="_blank"
+              rel="noopener"
+              aria-label="TikTok"
+              class="flex items-center justify-center transition-all duration-300 border rounded-full w-9 h-9 border-white/10 text-brand-muted hover:text-white hover:border-brand-primary hover:bg-brand-primary/10"
+            >
+              <Icon lib="social" name="simple-icons:tiktok" size={18} />
+            </a>
+          </div>
+        </m-col>
+
+        <!-- Col 2: Servicios -->
+        <m-col class="hidden flex-col gap-4 lg:flex grow-2 lg:ml-20">
+          <h3
+            class="mb-2 text-sm font-semibold tracking-widest text-white uppercase font-display"
+          >
+            Servicios
+          </h3>
+          <div class="grid grid-cols-2 gap-4">
+            {
+              services.map((s) => (
+                <a
+                  href={`${BASE}${s.href}`}
+                  class="text-sm transition-colors duration-200 text-brand-muted hover:text-brand-primary"
+                >
+                  {s.name}
+                </a>
+              ))
+            }
+          </div>
+        </m-col>
+
+        <!-- Col 3: Contenido -->
+        <m-col class="hidden flex-col gap-4 lg:flex">
+          <h3
+            class="mb-2 text-sm font-semibold tracking-widest text-white uppercase font-display"
+          >
+            Contenido
+          </h3>
+          {
+            contentLinks.map((s) => (
+              <a
+                href={`${BASE}${s.href}`}
+                class="text-sm transition-colors duration-200 text-brand-muted hover:text-brand-primary"
+              >
+                {s.name}
+              </a>
+            ))
+          }
+        </m-col>
+
+        <!-- Col 4: Contacto internacional -->
+        <m-col class="flex flex-col items-center gap-4 lg:items-start">
+          <h3
+            class="mb-2 text-sm font-semibold tracking-widest text-white uppercase font-display"
+          >
+            Contacto
+          </h3>
+          {
+            [
+              { flag: "usa", label: "USA", tel: "+1 786-828-5062" },
+              { flag: "mex", label: "MEX", tel: "+52 55 1328 5398" },
+              { flag: "chi", label: "CHL", tel: "+56 2 2582 3484" },
+              { flag: "arg", label: "ARG", tel: "+54 11 5983-9447" },
+              { flag: "col", label: "COL", tel: "+57 601 5087116" },
+            ].map((c) => (
+              <a
+                href={`tel:${c.tel.replace(/\s/g, "")}`}
+                class="flex items-center gap-2 text-sm transition-colors duration-200 text-brand-muted hover:text-white group whitespace-nowrap"
+              >
+                <img
+                  src={`${BASE}/imgs/flags/${c.flag}.svg`}
+                  alt={c.label}
+                  class="object-contain w-5 h-auto shrink-0"
+                />
+                <span class="text-xs font-medium text-white/40 w-7 shrink-0">
+                  {c.label}
+                </span>
+                <span class="transition-colors duration-200 group-hover:text-brand-primary">
+                  {c.tel}
+                </span>
+              </a>
+            ))
+          }
+        </m-col>
+      </m-row>
+
+      <!-- Bottom bar -->
+      <m-row
+        class="flex flex-col items-center justify-between gap-6 py-6 border-t border-white/8 lg:flex-row"
+      >
+        <m-col>
+          <p class="text-xs text-center text-brand-muted lg:text-left">
+            <span class="text-white"
+              >© MediaBros {new Date().getFullYear()}
+            </span>· Todos los derechos reservados
+          </p>
+        </m-col>
+        <m-col class="flex flex-col items-center gap-4 lg:flex-row lg:justify-end lg:gap-6">
+          <a
+            href={`${BASE}/politica-de-privacidad`}
+            class="text-xs transition-colors duration-200 text-brand-muted hover:text-white"
+            >Políticas de Privacidad</a
+          >
+          <a
+            href={`${BASE}/terminos-y-condiciones`}
+            class="text-xs transition-colors duration-200 text-brand-muted hover:text-white"
+            >Términos de Uso</a
+          >
+        </m-col>
+      </m-row>
+    </m-container>
+  </section>
+</footer>

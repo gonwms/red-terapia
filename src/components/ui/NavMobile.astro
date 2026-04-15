@@ -1,0 +1,130 @@
+---
+import Icon from "../atoms/Icon.astro";
+import type { NavItem } from "../../data/navigation";
+
+interface Props {
+  navItems: NavItem[];
+  pathname: string;
+  BASE: string;
+}
+
+const { navItems, pathname, BASE } = Astro.props;
+
+const regularItems = navItems.filter((item) => !item.dropdown);
+const dropdownItems = navItems.filter((item) => item.dropdown);
+
+const isActive = (href: string) => {
+  const normalized = href.endsWith("/") ? href : `${href}/`;
+  const current = pathname.endsWith("/") ? pathname : `${pathname}/`;
+  return current === normalized;
+};
+---
+
+<div
+  id="mobile-menu"
+  class="fixed inset-0 flex pointer-events-none z-60 md:hidden font-display"
+  aria-hidden="true"
+>
+  <div
+    id="mobile-overlay"
+    class="absolute inset-0 transition-opacity duration-300 opacity-0 bg-black/60"
+  >
+  </div>
+
+  <div
+    id="mobile-panel"
+    class="relative flex flex-col w-4/5 h-full max-w-sm ml-auto overflow-y-auto transition-transform duration-300 translate-x-full bg-brand-dark"
+  >
+    <!-- Header -->
+    <div
+      class="flex items-center justify-between px-6 py-5 border-b border-white/10"
+    >
+      <img
+        src={`${BASE}imgs/logo-text-blanco.svg`}
+        alt="Mediabros online"
+        class="h-10"
+      />
+      <button
+        id="close-btn"
+        class="p-1 text-white bg-transparent border-0 cursor-pointer"
+        aria-label="Cerrar menú"
+      >
+        <Icon name="close" size={28} />
+      </button>
+    </div>
+
+    <!-- Nav links -->
+    <nav class="flex flex-col px-4 py-4">
+      {
+        regularItems.map((item) => (
+          <a
+            href={item.href}
+            class:list={[
+              "flex items-center px-4 py-3.5 rounded-xl text-md font-medium transition-colors no-underline",
+              isActive(item.href!)
+                ? "text-brand-primary bg-white/5"
+                : "text-white/80 hover:text-white hover:bg-white/10",
+            ]}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+
+      {
+        dropdownItems.map((item) => (
+          <div class="pt-4 mt-2 border-t border-white/10">
+            <p class="px-4 mb-2 text-sm tracking-widest uppercase text-white/40">
+              {item.label}
+            </p>
+            {item.children?.map((svc) => (
+              <a
+                href={svc.href}
+                class="flex items-center gap-3 px-4 py-3 no-underline transition-colors rounded-xl text-md text-white/80 hover:text-white hover:bg-white/10"
+              >
+                <div class="flex items-center justify-center rounded-full bg-white/15 size-9 shrink-0">
+                  <img src={svc.icon} alt="" class="object-contain size-8" />
+                </div>
+                <span class="font-semibold font-display">{svc.label}</span>
+              </a>
+            ))}
+          </div>
+        ))
+      }
+    </nav>
+  </div>
+</div>
+
+<script>
+  const burgerBtn = document.getElementById("burger-btn")!;
+  const closeBtn = document.getElementById("close-btn")!;
+  const mobileMenu = document.getElementById("mobile-menu")!;
+  const mobilePanel = document.getElementById("mobile-panel")!;
+  const mobileOverlay = document.getElementById("mobile-overlay")!;
+
+  const openMobile = () => {
+    mobileMenu.classList.remove("pointer-events-none");
+    mobileMenu.setAttribute("aria-hidden", "false");
+    mobileOverlay.classList.add("opacity-100");
+    mobilePanel.classList.remove("translate-x-full");
+    burgerBtn.setAttribute("aria-expanded", "true");
+  };
+
+  const closeMobile = () => {
+    mobileMenu.classList.add("pointer-events-none");
+    mobileMenu.setAttribute("aria-hidden", "true");
+    mobileOverlay.classList.remove("opacity-100");
+    mobilePanel.classList.add("translate-x-full");
+    burgerBtn.setAttribute("aria-expanded", "false");
+  };
+
+  burgerBtn.addEventListener("click", openMobile);
+  closeBtn.addEventListener("click", closeMobile);
+  mobileOverlay.addEventListener("click", closeMobile);
+  mobilePanel
+    .querySelectorAll("a")
+    .forEach((link) => link.addEventListener("click", closeMobile));
+  document.addEventListener("keydown", (e) => {
+    e.key === "Escape" && closeMobile();
+  });
+</script>

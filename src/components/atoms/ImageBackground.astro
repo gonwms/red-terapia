@@ -1,0 +1,18 @@
+---
+interface Props {
+  src: string;
+  alt?: string;
+  class?: string;
+}
+
+const { src, alt = "", class: className } = Astro.props;
+---
+
+<img
+  src={src}
+  alt={alt}
+  class:list={[
+    className,
+    "ImageBackground absolute pointer-events-none  object-cover",
+  ]}
+/>

@@ -1,0 +1,83 @@
+---
+import ImageBackground from "./ImageBackground.astro";
+import Glow from "./Glow.astro";
+
+interface Props {
+  variant?: "light" | "primary" | "dark";
+  glowStyle?: "none" | "single" | "dual";
+  glowColor?: string;
+  backgroundPattern?: string;
+  backgroundPatternOpacity?: number;
+  class?: string;
+}
+
+const {
+  variant = "light",
+  glowStyle = "none",
+  glowColor,
+  backgroundPattern,
+  backgroundPatternOpacity = 0.1,
+  class: className,
+} = Astro.props;
+
+// Variant styles
+const variantStyles: Record<string, string> = {
+  light:
+    "bg-brand-bg border border-brand-border-subtle shadow-sm text-brand-foreground",
+  primary:
+    "bg-brand-primary border border-brand-primary/40 shadow-blue text-white",
+  dark: "bg-brand-dark border border-brand-dark/40 shadow-sm text-white",
+};
+
+// Glow colors by variant
+const glowColorMap: Record<string, string> = {
+  light: glowColor || "bg-brand-primary/10",
+  primary: glowColor || "bg-brand-primary/30",
+  dark: glowColor || "bg-brand-primary/20",
+};
+
+const selectedGlowColor = glowColorMap[variant];
+const BASE = import.meta.env.BASE_URL;
+---
+
+<div
+  class:list={[
+    "relative overflow-hidden rounded-3xl isolate  p-6 md:p-10",
+    variantStyles[variant],
+    className,
+  ]}
+>
+  <!-- Background Pattern Layer -->
+  {
+    backgroundPattern && (
+      <ImageBackground
+        src={backgroundPattern}
+        class={`inset-0 w-full h-full pointer-events-none`}
+        style={`opacity: ${backgroundPatternOpacity}`}
+      />
+    )
+  }
+
+  <!-- Glows -->
+  {
+    glowStyle === "single" && (
+      <Glow class={`top-0 right-0 w-96 h-96 ${selectedGlowColor} blur-3xl`} />
+    )
+  }
+
+  {
+    glowStyle === "dual" && (
+      <>
+        <Glow class={`top-0 right-0 w-96 h-96 ${selectedGlowColor} blur-3xl`} />
+        <Glow
+          class={`bottom-0 left-0 w-96 h-96 ${selectedGlowColor} blur-3xl`}
+        />
+      </>
+    )
+  }
+
+  <!-- Content Slot -->
+  <div class="relative z-10">
+    <slot />
+  </div>
+</div>
