@@ -2,6 +2,7 @@
 import { defineConfig } from "astro/config";
 import icon from "astro-icon";
 import tailwindcss from "@tailwindcss/vite";
+import { clickToSource } from 'astro-click-to-source';
 
 // Plugin para eliminar comentarios HTML
 const removeHtmlComments = {
@@ -29,6 +30,7 @@ export default defineConfig({
   base: DEPLOY_PATH,
   build: { assets: "assets" },
   integrations: [
+    clickToSource(),
     icon({
       include: {
         "simple-icons": ["*"],

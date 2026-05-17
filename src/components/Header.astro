@@ -1,0 +1,28 @@
+---
+const base = import.meta.env.BASE_URL;
+// Ensure we don't have trailing slash issues
+const cleanBase = base.endsWith('/') ? base : base + '/';
+---
+
+<!-- --------------- NAVIGATION --------------- -->
+<section id="navigation" class="sticky top-0 z-50 border-b border-slate-200 bg-white/80 backdrop-blur-md w-full">
+    <m-container>
+        <m-row class="flex-row items-center justify-between py-4">
+            <m-col class="flex-none">
+                <a href={cleanBase} class="text-xl font-bold tracking-tight text-slate-900 hover:text-slate-700 transition-colors">
+                    Red Terapia
+                </a>
+            </m-col>
+            <m-col class="hidden flex-none md:flex">
+                <m-row class="flex-row items-center gap-8 text-sm font-medium text-slate-600">
+                    <a href={`${cleanBase}#how-it-works`} class="transition-colors hover:text-brand">Cómo funciona</a>
+                    <a href={`${cleanBase}#faq`} class="transition-colors hover:text-brand">Preguntas</a>
+                    <a href={`${cleanBase}#final-cta`}
+                        class="rounded-full bg-slate-900 px-4 py-2 text-white transition-colors hover:bg-slate-800">
+                        Primera consulta gratis
+                    </a>
+                </m-row>
+            </m-col>
+        </m-row>
+    </m-container>
+</section>
